@@ -1,0 +1,21 @@
+{
+  "name": "erevision-backend",
+  "version": "1.0.0",
+  "description": "REST API for eRevision, a subject-based revision notes app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "author": "Harish Singh",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.4"
+  }
+}
