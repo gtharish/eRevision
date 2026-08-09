@@ -13,7 +13,7 @@ export default function NotesState(props) {
     // signup
     const Signup = async (user) => {
         const { username, email, password } = user;
-        const response = await fetch(`${host}/signup`, {
+        const response = await fetch(`${host}/eRevision/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password })
@@ -31,7 +31,7 @@ export default function NotesState(props) {
     // login
     const Login = async (user) => {
         const { email, password } = user;
-        const response = await fetch(`${host}/login`, {
+        const response = await fetch(`${host}/eRevision/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
@@ -48,7 +48,7 @@ export default function NotesState(props) {
     const fetchNotes = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${host}/getNotes`, {
+            const response = await fetch(`${host}/eRevision/getNotes`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function NotesState(props) {
 
     // create a new subject + first note
     const createNotes = async ({ subject, title, tag, description }) => {
-        const response = await fetch(`${host}/createNotes`, {
+        const response = await fetch(`${host}/eRevision/createNotes`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export default function NotesState(props) {
     // add a note to an existing subject
     const addNoteToSubject = async (subjectId, note) => {
         const { title, tag, description } = note;
-        const response = await fetch(`${host}/addNote/${subjectId}`, {
+        const response = await fetch(`${host}/eRevision/addNote/${subjectId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export default function NotesState(props) {
 
     // fetch notes for one subject, optional sort: "newest" | "oldest"
     const fetchSubjectNotes = async (id, sort = "newest") => {
-        const response = await fetch(`${host}/getNotes/${id}?sort=${sort}`, {
+        const response = await fetch(`${host}/eRevision/getNotes/${id}?sort=${sort}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -119,7 +119,7 @@ export default function NotesState(props) {
 
     // toggle favorite/pin on a note
     const toggleFavorite = async (id) => {
-        const response = await fetch(`${host}/toggleFavorite/${id}`, {
+        const response = await fetch(`${host}/eRevision/toggleFavorite/${id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export default function NotesState(props) {
 
     // fetch logged-in user's profile + stats
     const fetchProfile = async () => {
-        const response = await fetch(`${host}/me`, {
+        const response = await fetch(`${host}/eRevision/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -144,7 +144,7 @@ export default function NotesState(props) {
     // update a note
     const updateNote = async (id, note) => {
         const { title, tag, description } = note;
-        const response = await fetch(`${host}/updateNotes/${id}`, {
+        const response = await fetch(`${host}/eRevision/updateNotes/${id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -157,7 +157,7 @@ export default function NotesState(props) {
 
     // delete a note
     const deleteNote = async (id) => {
-        const response = await fetch(`${host}/deleteNotes/${id}`, {
+        const response = await fetch(`${host}/eRevision/deleteNotes/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -169,7 +169,7 @@ export default function NotesState(props) {
 
     // rename a subject
     const updateSubjectName = async (id, subject) => {
-        const response = await fetch(`${host}/updateSubject/${id}`, {
+        const response = await fetch(`${host}/eRevision/updateSubject/${id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -186,7 +186,7 @@ export default function NotesState(props) {
 
     // delete a subject and all its notes
     const deleteSubject = async (id) => {
-        const response = await fetch(`${host}/deleteSubject/${id}`, {
+        const response = await fetch(`${host}/eRevision/deleteSubject/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
