@@ -52,6 +52,7 @@ const handleGuestLogin = async () => {
                         placeholder="Email"
                         name="email"
                         value={user.email}
+                        required
                         onChange={handleChange}
                         className="w-full border border-border-custom rounded-lg p-3 outline-none focus:ring-2 focus:ring-primary"
                     />
@@ -62,6 +63,8 @@ const handleGuestLogin = async () => {
                         name="password"
                         value={user.password}
                         onChange={handleChange}
+                        required
+                        minLength={5}
                         className="w-full border border-border-custom rounded-lg p-3 outline-none focus:ring-2 focus:ring-primary"
                     />
 

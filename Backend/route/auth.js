@@ -2,13 +2,14 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+import { validateSignup, validateLogin } from "../middleware/validate.js";
 
 const router = express.Router();
 router.use(express.json());
 
 const round = 10;
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", validateSignup,async (req, res) => {
     try {
         const { username, email, password } = req.body;
         const user = await User.findOne({ email });
@@ -20,7 +21,7 @@ router.post("/signup", async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, round);
         const newUser = await User.create({ username, email, password: hashedPassword });
-        const token = jwt.sign({ user: { id: newUser._id } }, process.env.JWT_SECRET);
+        const token = jwt.sign({ user: { id: newUser._id } }, process.env.JWT_SECRET,{expiresIn:"1h"});
 
         return res.status(201).json({
             success: true,
@@ -34,7 +35,7 @@ router.post("/signup", async (req, res) => {
     }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login",validateLogin, async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
@@ -45,7 +46,7 @@ router.post("/login", async (req, res) => {
         if (!auth) {
             return res.status(401).json({ success: false, message: "incorrect password" });
         }
-        const token = jwt.sign({ user: { id: user._id } }, process.env.JWT_SECRET);
+        const token = jwt.sign({ user: { id: user._id } }, process.env.JWT_SECRET,{expiresIn:"1h"});
         return res.status(200).json({
             success: true,
             message: "user logged in",
