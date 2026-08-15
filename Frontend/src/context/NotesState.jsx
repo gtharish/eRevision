@@ -9,6 +9,7 @@ export default function NotesState(props) {
     const [credential, setCredential] = useState(!!localStorage.getItem("authToken"));
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isGuest, setIsGuest] = useState(localStorage.getItem("isGuest") === "true");
 
     // signup
     const Signup = async (user) => {
@@ -43,6 +44,21 @@ export default function NotesState(props) {
         }
         return data;
     };
+    // guest login
+    const guestLogin = async () => {
+    const response = await fetch(`${host}/eRevision/guest`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    });
+    const data = await response.json();
+    if (data.success) {
+        localStorage.setItem("authToken", data.authToken);
+        localStorage.setItem("isGuest", "true");
+        setIsGuest(true);
+        setCredential(true);
+    }
+    return data;
+};
 
     // fetch all subjects (with note counts)
     const fetchNotes = async () => {
@@ -200,19 +216,31 @@ export default function NotesState(props) {
         return data;
     };
 
-    const logout = () => {
-        localStorage.removeItem("authToken");
-        setCredential(false);
-        setSubject([]);
-        setNotes([]);
-    };
-
+  const logout = async () => {
+    if (isGuest) {
+        try {
+            await fetch(`${host}/guest-cleanup`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    authToken: localStorage.getItem("authToken")
+                }
+            });
+        } catch (e) {
+            console.error("guest cleanup failed:", e.message);
+        }
+    }
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("isGuest");
+    setIsGuest(false);
+    setCredential(false);
+    setSubject([]);
+    setNotes([]);
+};
     return (
         <NotesContext.Provider
             value={{
-                Subject,
-                Notes,
-                Signup,
+                Subject,Notes, Signup,
                 Login,
                 logout,
                 credential,
@@ -228,7 +256,8 @@ export default function NotesState(props) {
                 fetchProfile,
                 loading,
                 searchTerm,
-                setSearchTerm
+                setSearchTerm,
+                guestLogin
             }}
         >
             {props.children}

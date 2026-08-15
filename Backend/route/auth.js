@@ -56,5 +56,29 @@ router.post("/login", async (req, res) => {
         return res.status(500).json({ success: false, message: "internal server error" });
     }
 });
+router.post("/guest", async (req, res) => {
+    try {
+        const guestId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        const guestUser = await User.create({
+            username: `Guest_${guestId}`,
+            email: `guest_${guestId}@erevision.guest`,
+            password: "",
+            isGuest: true
+        });
+
+        const token = jwt.sign({ user: { id: guestUser._id } }, process.env.JWT_SECRET);
+
+        return res.status(201).json({
+            success: true,
+            message: "guest session started",
+            authToken: token,
+            isGuest: true,
+            user: { username: guestUser.username, email: guestUser.email }
+        });
+    } catch (e) {
+        console.error(e.message);
+        return res.status(500).json({ success: false, message: "internal server error" });
+    }
+});
 
 export default router;

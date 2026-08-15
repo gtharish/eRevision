@@ -3,12 +3,19 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     username: String,
-    email: String,
+    email:{
+      type: String,
+      unique:true
+    },
     password: String,
     Date: {
         type: Date,
         default: Date.now
-    }
+    },
+    isGuest: {
+    type: Boolean,
+    default: false
+},
 });
 
 const User = mongoose.model("User", userSchema);

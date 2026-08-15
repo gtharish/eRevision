@@ -197,5 +197,25 @@ router.delete("/deleteSubject/:id", fetchUser, async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
 });
+// guest data
+router.delete("/guest-cleanup", fetchUser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+
+        if (!user || !user.isGuest) {
+            return res.status(403).json({ success: false, message: "not a guest session" });
+        }
+
+        await Notes.deleteMany({ user: userId });
+        await Subject.deleteMany({ user: userId });
+        await User.findByIdAndDelete(userId);
+
+        return res.status(200).json({ success: true, message: "guest session data cleared" });
+    } catch (e) {
+        console.error(e.message);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+});
 
 export default router;
