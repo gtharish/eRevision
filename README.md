@@ -25,12 +25,12 @@ A full-stack revision notes app that lets students organize study material by su
 ## Tech Stack
 
 **Frontend**
-- React 19 + React Router v7
-- Tailwind CSS v4
+- React  + React Router 
+- Tailwind CSS 
 - Vite
 
 **Backend**
-- Node.js + Express 5
+- Node.js + Express 
 - MongoDB + Mongoose
 - JWT (jsonwebtoken) for authentication
 - bcrypt for password hashing
@@ -65,7 +65,7 @@ eRevision/
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 
 - A MongoDB connection string (local or Atlas)
 
 ### Backend setup
@@ -113,7 +113,6 @@ App runs on `http://localhost:5173` (default Vite port).
 ## Design Decisions
 
 - **Context API over Redux** — the app's state (subjects, notes, auth) is simple enough that Context + a single provider avoids unnecessary boilerplate.
-- **Custom `authToken` header instead of `Authorization: Bearer`** — a pragmatic choice for this project; a production version would follow the `Authorization` header convention.
 - **Cascading deletes handled server-side** — deleting a subject also deletes its notes in the same request, keeping the database consistent without relying on the frontend to make two calls.
 
 ## Possible Future Improvements
