@@ -5,7 +5,7 @@ import User from "../models/user.js";
 import { validateSignup, validateLogin } from "../middleware/validate.js";
 
 const router = express.Router();
-router.use(express.json());
+
 
 const round = 10;
 
@@ -27,7 +27,7 @@ router.post("/signup", validateSignup,async (req, res) => {
             success: true,
             message: "user signup successfully",
             authToken: token,
-            newUser
+           
         });
     } catch (e) {
         console.error(e.message);
@@ -53,7 +53,7 @@ router.post("/login",validateLogin, async (req, res) => {
             authToken: token
         });
     } catch (e) {
-        console.error(e.message);
+      
         return res.status(500).json({ success: false, message: "internal server error" });
     }
 });
