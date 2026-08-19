@@ -98,6 +98,7 @@ router.post("/addNote/:subjectId", fetchUser, async (req, res) => {
         const userId = req.user.id;
         const subjectId = req.params.subjectId;
         const { title, tag, description } = req.body;
+    
         const note = await Notes.create({
             title, tag, description,
             user: userId,
@@ -116,7 +117,7 @@ router.post("/updateNotes/:id", fetchUser, async (req, res) => {
         const Id = req.params.id;
         const { title, tag, description } = req.body;
         const note = await Notes.findByIdAndUpdate(
-            Id,
+          {_id: Id, user: req.user.id},
             { $set: { title, description, tag } },
             { new: true }
         );
@@ -171,7 +172,7 @@ router.post("/updateSubject/:id", fetchUser, async (req, res) => {
 router.delete("/deleteNotes/:id", fetchUser, async (req, res) => {
     try {
         const Id = req.params.id;
-        const note = await Notes.findByIdAndDelete(Id);
+        const note = await Notes.findByIdAndDelete({_id:id,user:req.user.id});
         if (!note) {
             return res.status(404).json({ success: false, message: "note not found!!" });
         }
@@ -186,7 +187,7 @@ router.delete("/deleteNotes/:id", fetchUser, async (req, res) => {
 router.delete("/deleteSubject/:id", fetchUser, async (req, res) => {
     try {
         const Id = req.params.id;
-        const sub = await Subject.findByIdAndDelete(Id);
+        const sub = await Subject.findByIdAndDelete({_id:id,user:req.user.id});
         if (!sub) {
             return res.status(404).json({ success: false, message: "subject not found" });
         }

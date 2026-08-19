@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const notesSchema = new Schema({
     title: String,
-    tag: [String],
+    tag: {
+        type:[String],
+        default:["general"]
+    },
     description: String,
     favorite: {
         type: Boolean,

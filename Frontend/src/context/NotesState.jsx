@@ -132,6 +132,10 @@ export default function NotesState(props) {
             if (data.success) {
                 setSubject(data.subject);
             }
+            else{
+                setCredential(false);
+                showToast("Invalid User!!!","error");
+            }
         } catch (e) {
             console.error(e);
         } finally {
@@ -141,12 +145,13 @@ export default function NotesState(props) {
 
     useEffect(() => {
         if (credential) {
+           
             fetchNotes();
         } else {
             setLoading(false);
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, [credential]);
 
     // create a new subject + first note

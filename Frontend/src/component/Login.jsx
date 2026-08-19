@@ -8,7 +8,7 @@ export default function Login() {
     const [user, setUser] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
     const {  guestLogin } = useContext(NotesContext);
-// ...
+
 const [guestLoading, setGuestLoading] = useState(false);
 const handleGuestLogin = async () => {
     setError("");
